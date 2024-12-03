@@ -42,6 +42,14 @@ def inicializar_matriz(filas : int , columnas : int , valor_inicial : any) -> li
     return matriz
 
 def cargar_participantes(matriz:list[list])->list[list]:
+    """carga la mtraiz con los datos que necesitamos
+
+    Args:
+        matriz (list[list]): _description_
+
+    Returns:
+        list[list]: _description_
+    """
    
     I_PARTICIPANTE = 0
     I_JURADO_UNO = 1
@@ -118,48 +126,7 @@ def imprimir_lista_encolumna(lista:list)->None:
     print(' ')  
     print(' ')  
         
-def encontrar_numero(matriz: list[list], numero:int, columna:int)->None:
-    """encuentra conincidencias en una columna de la matriz
-    las muestra junto con el encabezado de la fila[0]
-
-    Args:
-        matriz (list[list]): recibe una matriz
-        numero (int): la coincidencia a bsucar
-        columna (int): el lugar donde buscar
-    """
-    bandera = 0
-    matrix = []
-    for i in range(1,len(matriz)):
-        if matriz[i][columna] == numero:
-            matrix +=  [matriz[i]]
-            bandera = 1
-           
-    if bandera == 1:
-        imprimir_lista_encolumna(matriz[0])
-        print('')
-        mostrar_matriz(matrix)
-    else:    
-        print('No se encontro')          
-
-def encontrar_aplazados(matriz:list[list], numero:int, columna:int)->list:
-    """recorre por filas una matriz y compara la columna indicada
-    por menor 
-
-    Args:
-        matriz (list[list]): lista de listas
-        numero (int): entero a comparar menor que 'numero'
-        columna (int): la columna en la que vamos a comparar
-
-    Returns:
-        list: una lista o matriz con los menores encontrados
-    """
-    auxiliar = []
-   
-    for i in range(1,len(matriz)):
-        if matriz[i][columna] < numero:
-            auxiliar += [matriz[i]]
-        
-    return  auxiliar  
+  
 
 def imprimir_por_filas(matriz:list[list], filas:int)->None:
     """imprime las filas que le indiques de una matriz
@@ -200,24 +167,7 @@ def ordenar_doble_criterio(matriz:list[list],columna_uno:int,columna_dos:int,ope
             
     return matriz  
 
-def encontrar_iguales_en_dos_columnas(matriz:list[list], columna_uno:int, columna_dos:int)->list[list]|None:
-    """recorre una mtriz para ver si coinciden en dos columnas diferentes
 
-    Args:
-        matriz (list[list]): recibe una matriz
-        columna_uno (int): primer criterio
-        columna_dos (int): segundo criterio
-
-    Returns:
-        list[list]: una matriz o NONE
-    """
-    matriz_de_iguales = []
-    for i in range(1,len(matriz)-1):
-        for j in range(i+1, len(matriz)):
-            if matriz[i][columna_uno] == matriz[j][columna_uno] and matriz[i][columna_dos] == matriz[j][columna_dos]:
-                matriz_de_iguales += [matriz[i]]
-                matriz_de_iguales += [matriz[j]]
-    return matriz_de_iguales                
                     
 def mostrar_matriz(matriz:list[list]):
     """imprime una matriz
@@ -231,41 +181,6 @@ def mostrar_matriz(matriz:list[list]):
             print(f'{matriz[i][j]:<15}', end= ' ')
         print('')  
 
-def mostrar_ganador_y_empates(matriz: list[list], columna_uno: int, columna_dos: int, operador) -> None:
-    """Ordena una matriz por doble criterio y muestra al ganador o los que empataron.
-
-    Args:
-        matriz (list[list]): Recibe una matriz.
-        columna_uno (int): Primer criterio (columna 4).
-        columna_dos (int): Segundo criterio (columna 1).
-        operador (function): Función que define el operador de comparación.
-    """
-    ganador = matriz[1]  
-    empates = []         
-
-    
-    for i in range(2, len(matriz)):
-        if operador(matriz[i][columna_uno], ganador[columna_uno]):
-            ganador = matriz[i]
-            empates = []  
-        elif matriz[i][columna_uno] == ganador[columna_uno]:
-            if operador(matriz[i][columna_dos], ganador[columna_dos]):
-                ganador = matriz[i]  
-                empates = []         
-            elif matriz[i][columna_dos] == ganador[columna_dos]:
-                empates += [matriz[i]]
-                
-    if empates:
-        imprimir_lista_encolumna(matriz[0])
-        print('')
-        imprimir_lista_encolumna(ganador)
-        print('')
-        mostrar_matriz(empates)
-    else:
-        imprimir_lista_encolumna(matriz[0])
-        print('')
-        imprimir_lista_encolumna(ganador)
-        print('')
                   
 def verificar_si_es_matriz(matriz : list[list])-> bool | list: 
     """verifica si es o no matriz 
@@ -339,9 +254,19 @@ def copiar_matriz(matriz:list[list])->list[list]:
 
 
 def calcular_promedio(valor_uno:int,valor_dos:int,valor_tres:int)->float:
-        suma = valor_uno + valor_dos + valor_tres
-        nota_promedio = suma / 3 
-        return round(nota_promedio,2) 
+    """funcion para calcular el promedio en el ejercicio para el parcial
+
+    Args:
+        valor_uno (int): _description_
+        valor_dos (int): _description_
+        valor_tres (int): _description_
+
+    Returns:
+        float: _description_
+    """
+    suma = valor_uno + valor_dos + valor_tres
+    nota_promedio = suma / 3 
+    return round(nota_promedio,2) 
 
 
 def recortar_matriz_por_filas(matriz:list[list], numero_filas:int)->list[list]:
@@ -359,8 +284,8 @@ def recortar_matriz_por_filas(matriz:list[list], numero_filas:int)->list[list]:
     contador = 0
 
     for fila in matriz:
-        if contador < numero_filas:  # Solo cargar las primeras 3 filas
-            nueva_matriz[contador] = fila  # Carga la fila en la posición `contador`
+        if contador < numero_filas:  
+            nueva_matriz[contador] = fila  
             contador += 1
 
     return nueva_matriz   
@@ -378,24 +303,34 @@ def promediar_columna(matriz:list[list],columna:int)-> float:
     suma = 0
     for i in range(len(matriz)):
         suma += matriz[i][columna]
-        
-    promedio = suma / len(matriz)   
-    return round(promedio,2)   
+    if len(matriz) > 0:    
+        promedio = suma / len(matriz)   
+        return round(promedio,2)   
 
-def filtrar_matriz_por_columna(matriz: list[list], columna: int, valor: int) -> list[list]:
-    # Inicializar la nueva matriz con un tamaño máximo posible
+def encontrar_mayores_promedios(matriz: list[list], columna: int, valor: int) -> list[list]:
+    """
+
+    Args:
+        matriz (list[list]): _description_
+        columna (int): _description_
+        valor (int): _description_
+
+    Returns:
+        list[list]: _description_
+    """
+    
     nueva_matriz = [None] * len(matriz)
-    index = 0
+    indice = 0
 
-    # Filtrar filas que cumplan la condición
+    
     for fila in matriz:
         if fila[columna] > valor:
-            nueva_matriz[index] = fila  # Asignar directamente
-            index += 1
+            nueva_matriz[indice] = fila  
+            indice += 1
 
-    # Crear una matriz final con solo las filas cargadas
-    matriz_final = [None] * index
-    for i in range(index):
+   
+    matriz_final = [None] * indice
+    for i in range(indice):
         matriz_final[i] = nueva_matriz[i]
 
     return matriz_final   
@@ -407,25 +342,25 @@ def encontrar_peor_jurado(jurado_uno:float,jurado_dos:float,jurado_tres:float)->
         menor_promedio = jurado_tres 
      
     peores_jurados = [None] * 3  
-    index = 0
+    indice = 0
 
     
     if jurado_uno == menor_promedio:
-        peores_jurados[index] = f'Jurado 1 con una nota promedio de {jurado_uno}'
-        index += 1
+        peores_jurados[indice] = f'Jurado 1 con una nota promedio de {jurado_uno}'
+        indice += 1
     if jurado_dos == menor_promedio:
-        peores_jurados[index] = f'Jurado 2 con una nota promedio de {jurado_dos}'
-        index += 1
+        peores_jurados[indice] = f'Jurado 2 con una nota promedio de {jurado_dos}'
+        indice += 1
     if jurado_tres == menor_promedio:
-        peores_jurados[index] = f'Jurado 3 con una nota promedio de {jurado_tres}'
-        index += 1
+        peores_jurados[indice] = f'Jurado 3 con una nota promedio de {jurado_tres}'
+        indice += 1
 
  
-    if index == 1:
+    if indice == 1:
         return f'El jurado más malo es {peores_jurados[0]}'
     else:
         mensaje = 'Los jurados más malos son: '
-        for i in range(index):
+        for i in range(indice):
             if i > 0:
                 mensaje += ', '
             mensaje += peores_jurados[i]
@@ -433,26 +368,23 @@ def encontrar_peor_jurado(jurado_uno:float,jurado_dos:float,jurado_tres:float)->
 
 
 
-#print(encontrar_peor_jurado(4.1,5.3,1.4))   
-# 
-#
-def filtrar_por_busqueda(matriz: list[list], columna: int, valor: int) -> list[list]:
-    # Inicializar la nueva matriz con un tamaño máximo posible
-    nueva_matriz = [None] * len(matriz)
-    index = 0
 
-    # Filtrar filas que cumplan la condición
-    for fila in matriz:
-        if fila[columna] == valor:
-            nueva_matriz[index] = fila  # Asignar directamente
-            index += 1
+# def filtrar_por_busqueda(matriz: list[list], columna: int, valor: int) -> list[list]:
+    
+#     nueva_matriz = [None] * len(matriz)
+#     index = 0
 
-    # Crear una matriz final con solo las filas cargadas
-    matriz_final = [None] * index
-    for i in range(index):
-        matriz_final[i] = nueva_matriz[i]
+   
+#     for fila in matriz:
+#         if fila[columna] == valor:
+#             nueva_matriz[index] = fila  
 
-    return matriz_final     
+    
+#     matriz_final = [None] * index
+#     for i in range(index):
+#         matriz_final[i] = nueva_matriz[i]
+
+#     return matriz_final     
 
 def encontrar_ganador(matriz:list[list],nota:float,columna:int)->list | list[list]:   
     posibles_ganadores = [None] * len(matriz)  
@@ -471,8 +403,80 @@ def encontrar_ganador(matriz:list[list],nota:float,columna:int)->list | list[lis
 
     return posibles_ganadores_final  
 
-def desempatar_participantes(matriz:list[list])->str:
-    for i in range(len(matriz)):
-        votar = pedir_numero(f'el jurado {i+1} vota por: ',f'ERROR solo puede elejir participantes del {i+1} al {len(matriz)}',1,len(matriz))
+def desempatar_participantes(matriz_empates):
+    """
+    Desempata una matriz de participantes donde los jurados votan por un participante.
+
+    Parámetros:
+        matriz_empates (list): Matriz donde cada fila representa a un participante empatado.
+                               Formato: [['participante', nota1, nota2, nota3, promedio], ...]
+
+    Retorna:
+        str: El participante ganador del desempate.
+    """
+    
+    participantes = [fila[0] for fila in matriz_empates]
+    votos = [0] * len(participantes)
+    jurados = ["Jurado_uno", "Jurado_dos", "Jurado_tres"]
+
+    
+
+   
+
+    for jurado in jurados:
+        print(f"\n{jurado}, elija un participante (ingrese el número):")
+        for i in range(len(participantes)):
+            print(f"{i + 1}. {participantes[i]}")
         
-            
+        voto = pedir_numero(
+            mensaje="Ingrese el número del participante: ",
+            mensaje_error="Número inválido. Intente de nuevo: ",
+            minimo=1,
+            maximo=len(participantes)
+        )
+        votos[voto - 1] += 1
+
+   
+    contador = 0
+    ganador = participantes[0]
+    max_votos = votos[0]
+    for k in range(1, len(participantes)):
+        if votos[k] > max_votos:
+            max_votos = votos[k]
+            ganador = participantes[k]
+    for j in range(len(participantes)):
+        if votos[j] == max_votos:
+            contador += 1
+        if contador > 1:
+            ganador = matriz_empates[random.randint(0,len(matriz_empates)-1)][0]          
+            break
+    
+    return ganador
+
+def buscar_por_notas_sumadas(matriz:list[list])->str:
+    """guarda las sumas de cada nota por participante en una lista y verifica si alguna coincide con el entero que ingresamos
+
+    Args:
+        matriz (list[list]): _description_
+
+    Returns:
+        str: _description_
+    """
+    suma_notas = []
+
+    
+    for fila in matriz:
+        suma = 0
+        for i in range(1, 4):  
+            suma += fila[i]
+        suma_notas += [suma] 
+    busqueda = pedir_numero('Ingrese numero del 3 al 300: ', 'ERROR solo numero entre 3 y 300',3,300)
+
+    encontrado = False
+    for i in range(len(suma_notas)):
+        if suma_notas[i] == busqueda:
+            print(f"El numero {busqueda} coincide con {matriz[i][0]}.")
+            encontrado = True
+
+    if not encontrado:
+        print(f"No se encontró ningún participante con suma de notas igual a {busqueda}.")     
